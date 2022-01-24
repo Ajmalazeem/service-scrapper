@@ -1,4 +1,4 @@
-module ggrc
+module bitbucket.org/ajmal_azm/scraperp
 
 go 1.16
 
