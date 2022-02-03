@@ -3,6 +3,7 @@ package main
 import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	//"gorm.io/gorm/clause"
 )
 
 type WebStore interface {
@@ -23,7 +24,7 @@ func (t *webStore) Create(response Model) error {
 		for i := 0; i < 50; i++ {
 		a =	append(a,<-t.ch)
 		}
-		err =	t.db.Debug().Table("scrape").Clauses(clause.OnConflict{DoNothing: true}).Create(&a).Error
+		err =	t.db.Debug().Table("scrape").Clauses(clause.OnConflict{UpdateAll: true}).Create(&a).Error
 		t.ch<-response
 	}
 	return err 
