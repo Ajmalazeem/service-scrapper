@@ -8,6 +8,7 @@ import (
 
 type WebStore interface {
 	Create(Model) error
+	GetP(req GetRequest) (*Model, error)
 }
 
 type webStore struct {
@@ -24,11 +25,24 @@ func (t *webStore) Create(response Model) error {
 		for i := 0; i < 50; i++ {
 		a =	append(a,<-t.ch)
 		}
-		err =	t.db.Debug().Table("scrape").Clauses(clause.OnConflict{UpdateAll: true}).Create(&a).Error
+		err =	t.db.Debug().Table("scrape").Clauses(clause.OnConflict{
+			Columns:   []clause.Column{{Name: "package_name"}},
+			UpdateAll: true,
+			}).Create(&a).Error
 		t.ch<-response
 	}
 	return err 
 
+}
+
+func (t *webStore) GetP(req GetRequest) (*Model, error) {
+	result := Model{}
+	err := t.db.Table("scrape").Where("package_name = ?", req.PackageName).Find(&result).Error
+
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
 }
 
 func NewWebStore(db *gorm.DB) WebStore {

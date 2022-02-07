@@ -23,4 +23,8 @@ type Model struct {
 	Developer           string `gorm:"column:developer"`
 }
 
+type GetRequest struct {
+	PackageName string
+}
+
 

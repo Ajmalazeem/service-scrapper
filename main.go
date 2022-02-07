@@ -24,8 +24,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	scrap := NewWebStore(db)
-	NewWebService(scrap)
+	webStore := NewWebStore(db)
+	scrap := NewWebService(webStore)
+	log.Println("Listening on", "8000")
+	http.ListenAndServe(":8000", api.MakeHandler(scrap))
 }
 
 

@@ -17,6 +17,7 @@ import (
 type WebService interface {
 	GeneratePackage() error
 	Scrap() error
+	GetP(req GetRequest)(*Model,error)
 }
 
 type webService struct {
@@ -26,6 +27,14 @@ type webService struct {
 	headerNodes 	[]*cdp.Node
 	headNodes		[]*cdp.Node
 
+}
+
+func (t *webService) GetP(req GetRequest)(*Model,error){
+	d , err:= t.webStore.GetP(req)
+	if err != nil{
+		return nil, err
+	}
+	return d, nil
 }
 
 func NewWebService(webStore WebStore) WebService {
