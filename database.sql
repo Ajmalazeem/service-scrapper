@@ -1,6 +1,6 @@
 CREATE DATABASE scraper
 
-ALTER TABLE scrap
+
 CREATE TABLE scrap (
     package_name        TEXT            PRIMARY KEY,
     app_name            TEXT            NOT NULL,
@@ -97,11 +97,3 @@ before update
 on scrape
 for each row
 execute procedure log_change();
-
-
-
--- IF EXISTS (SELECT 1 FROM tbl
---            WHERE (app_name,     urlid,     company,     contain_ads, purchase_ads, image_url, rating, rated_people, updated, size, installs, current_version, android_version, content_rating, interactive_ele, in_app_products, offered_by, developer)
---            = (NEW.app_name,     NEW.urlid,     NEW.company,     NEW.contain_ads, NEW.purchase_ads, NEW.image_url, NEW.rating, NEW.rated_people, NEW.updated, NEW.size, NEW.installs, NEW.current_version, NEW.android_version, NEW.content_rating, NEW.interactive_ele, NEW.in_app_products, NEW.offered_by, NEW.developer)) THEN
---    RETURN NULL;
--- END IF;

@@ -22,16 +22,22 @@ func (t *webStore) Create(response Model) error {
 	case t.ch <- response:
 	default:
 		var a []Model
+		unique := map[string]struct{}{}
 		for i := 0; i < 50; i++ {
-		a =	append(a,<-t.ch)
+			val := <-t.ch
+			if _, ok := unique[val.PackageName]; !ok {
+				a = append(a, val)
+			}
+			unique[val.PackageName] = struct{}{}
 		}
-		err =	t.db.Debug().Table("scrape").Clauses(clause.OnConflict{
+
+		err = t.db.Debug().Table("scrape").Clauses(clause.OnConflict{
 			Columns:   []clause.Column{{Name: "package_name"}},
 			UpdateAll: true,
-			}).Create(&a).Error
-		t.ch<-response
+		}).Create(&a).Error
+		t.ch <- response
 	}
-	return err 
+	return err
 
 }
 

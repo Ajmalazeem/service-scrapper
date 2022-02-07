@@ -11,11 +11,8 @@ import (
 
 func decodeGetRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var req GetRequest
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		return nil, err
-	}
 	vars := mux.Vars(r)
-	packageName := vars["packageName"]
+	packageName := vars["PackageName"]
 	var err error
 	 if req.PackageName = packageName;err != nil{
 		 return nil, err
@@ -43,7 +40,7 @@ func MakeHandler(svc WebService) http.Handler {
 		encodeResponse,
 	)
 	
-	r.Methods(http.MethodGet).Path("/scrap/{packageName}").Handler(GetHandler)
+	r.Methods(http.MethodGet).Path("/scrap/{PackageName}").Handler(GetHandler)
 	return r
 }
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	//"time"
 	//"net/http"
 
@@ -27,7 +28,7 @@ func main() {
 	webStore := NewWebStore(db)
 	scrap := NewWebService(webStore)
 	log.Println("Listening on", "8000")
-	http.ListenAndServe(":8000", api.MakeHandler(scrap))
+	http.ListenAndServe(":8000", MakeHandler(scrap))
 }
 
 
