@@ -1,0 +1,110 @@
+package api
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
+	"bitbucket.org/ajmal_azm/scraperP/model"
+	"bitbucket.org/ajmal_azm/scraperP/store"
+)
+
+type MockRepository struct {
+	mock.Mock
+	store.WebStore
+	b chan string
+}
+
+func (mock *MockRepository) Scrap()error {
+	args := mock.Called()
+	return args.Error(0)
+}
+
+func TestScrap(t *testing.T) {
+	mockrepo := new(MockRepository)
+    
+	post := model.Model{
+		Url:                 "https://play.google.com/store/apps/details?id=com.pg.oralb.oralbapp",
+		PackageName:         "com.pg.oralb.oralbapp",
+		AppName:             "Oral-B",
+		DeveloperName:       "Procter & Gamble Productions",
+		ImageUrl:            "https://play-lh.googleusercontent.com/fO1sD60QXN1_EUZgAg7e6WfsAu0GyzlgkJ0O8ONja0a8bp7AACu8VLh-7pho212cKchL=s180",
+		Rating:              "4.3",
+		RatedPeopleCount:    "64,806",
+		InAppPurchase:       false,
+		ContainAds:          false,
+		Updated:             "January 4, 2022",
+		Size:                "83M",
+		Installs:            "1,000,000+",
+		CurrentVersion:      "8.7.1",
+		AndroidVersion:      "7.0 and up",
+		ContentRating:       "Rated for 3+Learn more",
+		InteractiveElements: "",
+		InAppProducts:       "",
+		OfferedBy:           "Procter & Gamble Productions",
+		Developer:           "Visit websiteproctergambleproductions@gmail.comPrivacy Policy",
+	}
+	mockrepo.On("Scrap").Return(nil)
+	testservice := NewWebService(mockrepo)
+    mockrepo.b<- "https://play.google.com/store/apps/details?id=com.pg.oralb.oralbapp"
+	testservice.Scrap()
+    result := post
+	mockrepo.AssertExpectations(t)
+	//assert.Equal(t,"1",result.Id)
+	//assert.Equal(t,"work",result.Todo)
+	assert.Nil(t, result)
+
+}
+
+// func TestPostTodoError (t *testing.T){
+// 	mockRepo := new(MockRepository)
+// 	post := models.PostTodoRequest{Id:"1", Todo : "work"}
+// 	err := errors.New("invalid")
+// 	mockRepo.On("PostTodo").Return(err)
+// 	testService := NewTodoService(mockRepo)
+// 	result := testService.PostTodo(post)
+
+// 	mockRepo.AssertExpectations(t)
+// 	log.Println(err)
+// 	assert.NotNil(t,result)
+// }
+
+// func TestGetTodo(t *testing.T){
+// 	mockRepo := new(MockRepository)
+// 	get := models.GetTodoRequest{Id: "1"}
+// 	post := models.PostTodoRequest{Id: "1", Todo: "work"}
+// 	var err error
+// 	mockRepo.On("GetTodo").Return(&post,err)
+// 	testService := NewTodoService(mockRepo)
+// 	result, err := testService.GetTodo(get)
+
+// 	mockRepo.AssertExpectations(t)
+// 	log.Println(err)
+// 	assert.Equal(t,"1",result.Id)
+// 	assert.Equal(t,"work",result.Todo)
+// 	assert.Nil(t,err)
+// }
+
+// func TestPutTodo(t *testing.T){
+// 	mockRepo := new(MockRepository)
+// 	Put := models.PutTodoRequest{Id: "1",Todo: "work"}
+// 	var err error
+// 	mockRepo.On("PutTodo").Return(err)
+// 	testService := NewTodoService(mockRepo)
+// 	result := testService.PutTodo(Put)
+
+// 	mockRepo.AssertExpectations(t)
+// 	assert.Nil(t, result)
+// }
+
+// func TestDeleteTodo (t *testing.T){
+// 	mockRepo := new(MockRepository)
+// 	delete := models.DeleteTodoRequest{Id: "1"}
+// 	var err error
+// 	mockRepo.On("DeleteTodo").Return(err)
+// 	testService := NewTodoService(mockRepo)
+// 	result := testService.DeleteTodo(delete)
+// 	mockRepo.AssertExpectations(t)
+// 	assert.Nil(t,result)
+// }
