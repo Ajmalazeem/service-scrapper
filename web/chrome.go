@@ -82,10 +82,9 @@ func (t *Webs) CategoriesList() {
 			chromedp.Nodes(":is(div.wXUyZd > a)", &t.headNodes, chromedp.ByQueryAll),
 			chromedp.ActionFunc(func(c3 context.Context) error {
 				for _, node := range t.headNodes {
-					//log.Println("categories list url==", j)
 					u := node.AttributeValue("href")
 					appUrl := t.playstoreUrl + u
-					//log.Println("[home]", appUrl)
+					log.Println("[home]", appUrl)
 					t.appURLChan <- appUrl
 				}
 
@@ -93,7 +92,7 @@ func (t *Webs) CategoriesList() {
 			}),
 		)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		cancel()
 	}
@@ -243,15 +242,14 @@ func (t *Webs) UrlList() {
 								for _, node := range t.headNodes {
 									u := node.AttributeValue("href")
 									appUrl := t.playstoreUrl + u
-									// log.Println("appurl url list==",q)
-									//log.Println("[category]", appUrl)
+									log.Println("[category]", appUrl)
 									t.appURLChan <- appUrl
 								}
 								return nil
 							}),
 						)
 						if err != nil {
-							log.Fatal(err)
+							log.Println(err)
 							return err
 						}
 						continue
@@ -261,7 +259,7 @@ func (t *Webs) UrlList() {
 			}),
 		)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		cancel()
 	}
@@ -356,8 +354,7 @@ func (t *Webs) SearchKeyword(searchItem string) {
 			for _, node := range t.headNodes {
 				u := node.AttributeValue("href")
 				appUrl := t.playstoreUrl + u
-				// log.Println("appurl search list==",r)
-				//log.Println("[search]", appUrl)
+				log.Println("[search]", appUrl)
 				t.appURLChan <- appUrl
 			}
 
@@ -365,7 +362,7 @@ func (t *Webs) SearchKeyword(searchItem string) {
 		}),
 	)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 }

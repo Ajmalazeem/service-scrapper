@@ -26,7 +26,7 @@ func (t *webStore) Create(response model.Model) error {
 	default:
 		var a []model.Model
 		unique := map[string]struct{}{}
-		for i := 0; i < 250; i++ {
+		for i := 0; i < 500; i++ {
 			val := <-t.ch
 			if _, ok := unique[val.PackageName]; !ok {
 				a = append(a, val)
@@ -34,7 +34,7 @@ func (t *webStore) Create(response model.Model) error {
 			unique[val.PackageName] = struct{}{}
 		}
 
-		err = t.db.Table("scrape").Clauses(clause.OnConflict{
+		err = t.db.Table("scrap").Clauses(clause.OnConflict{
 			Columns:   []clause.Column{{Name: "package_name"}},
 			UpdateAll: true,
 		}).Create(&a).Error
@@ -45,7 +45,7 @@ func (t *webStore) Create(response model.Model) error {
 
 func (t *webStore) GetPackageNameDetails(req model.GetRequest) (*model.Model, error) {
 	result := model.Model{}
-	err := t.db.Table("scrape").Where("package_name = ?", req.PackageName).Find(&result).Error
+	err := t.db.Table("scrap").Where("package_name = ?", req.PackageName).Find(&result).Error
 
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (t *webStore) GetPackageNameDetails(req model.GetRequest) (*model.Model, er
 
 func (t *webStore) GetChangeLogDetails(req model.GetRequest) (*[]model.Changelog, error) {
 	result := []model.Changelog{}
-	err := t.db.Table("scrape_logs").Where("package_name = ?", req.PackageName).Find(&result).Limit(-1).Error
+	err := t.db.Table("scrap_logs").Where("package_name = ?", req.PackageName).Find(&result).Limit(-1).Error
 
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (t *webStore) GetChangeLogDetails(req model.GetRequest) (*[]model.Changelog
 func NewWebStore(db *gorm.DB) WebStore {
 	return &webStore{
 		db: db,
-		ch: make(chan model.Model, 250),
+		ch: make(chan model.Model, 500),
 		
 	}
 }

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
-	"time"
+	"net/http"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -19,9 +19,9 @@ func main() {
 
 	config, err := LoadConfig(".")
 	if err != nil {
-		log.Fatal("cannot load config")
+		log.Fatal("cannot load config", err)
 	}
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%d dbname=%s sslmode=disable", config.DBHost, config.DBPort, config.DBUser, config.DBPassword, config.DBName)
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.DBHost, config.DBPort, config.DBUser, config.DBPassword, config.DBName)
 	var db *gorm.DB
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -29,14 +29,11 @@ func main() {
 	}
 	web := web.NewWeb()
 	webStore := store.NewWebStore(db)
-	api.NewWebService(webStore, web)
+	api.NewScraperBg(webStore, web)
+	scrap := api.NewWebService(webStore)
 	log.Println("Listening on", "8080")
+	http.ListenAndServe(":8080", api.MakeHandler(scrap))
+	//<-time.NewTicker(time.Hour).C
+	//log.Println(time.Now())
 
-	// go func(){
-	// defer wg.Done()
-	//http.ListenAndServe(":8080", api.MakeHandler(scrap))
-	<-time.NewTicker(time.Hour).C
-	log.Println(time.Now())
-	// }()
-	// wg.Wait()
 }

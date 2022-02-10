@@ -21,9 +21,7 @@ type Model struct {
 	OfferedBy           string `json:"offered_by" gorm:"column:offered_by"`
 	Developer           string `json:"developer" gorm:"column:developer"`
 }
-type Mod struct{
-	Url string
-}
+
 
 type GetRequest struct {
 	PackageName string
