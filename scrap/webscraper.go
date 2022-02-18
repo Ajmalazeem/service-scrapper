@@ -32,7 +32,7 @@ func Scraper(url string) model.Model {
 
 	doc.Find(".AHFaub").Each(func(i int, v *goquery.Selection) {
 		response.AppName = v.Text()
-		 log.Println(response.AppName)
+		// log.Println(response.AppName)
 	})
 
 	doc.Find(".R8zArc").Each(func(i int, f *goquery.Selection) {

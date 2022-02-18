@@ -11,24 +11,22 @@ import (
 type ScraperBg interface {
 	GeneratePackage() error
 	Scrap() error
-
 }
 
 type Scraperbg struct {
 	web      web.Web
 	webStore store.WebStore
 	b        chan string
-
 }
+
 func NewScraperBg(webStore store.WebStore, web web.Web) ScraperBg {
-	a := Scraperbg{webStore: webStore, web:web , b: make(chan string)}
-	go	a.GeneratePackage()
+	a := Scraperbg{webStore: webStore, web: web, b: make(chan string)}
+	go a.GeneratePackage()
 	for i := 0; i < 30; i++ {
 		go a.Scrap()
 	}
 	return &a
 }
-
 
 func (t *Scraperbg) GeneratePackage() error {
 	go t.web.CategoriesList()

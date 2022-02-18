@@ -54,7 +54,7 @@ func (t *Webs) CategoriesList() {
 				var v int
 				a := make(map[int]int)
 
-				for i := 0; i < 10; i++ {
+				for i := 0; i < 20; i++ {
 					count := len(a)
 					_, exp, err := runtime.Evaluate(`window.scrollTo(0,document.body.scrollHeight);`).Do(c2)
 					time.Sleep(2 * time.Second)
@@ -84,7 +84,7 @@ func (t *Webs) CategoriesList() {
 				for _, node := range t.headNodes {
 					u := node.AttributeValue("href")
 					appUrl := t.playstoreUrl + u
-					log.Println("[home]", appUrl)
+					//log.Println("[home]", appUrl)
 					t.appURLChan <- appUrl
 				}
 
@@ -168,7 +168,7 @@ func (t *Webs) UrlList() {
 				var v int
 				a := make(map[int]int)
 
-				for i := 0; i < 10; i++ {
+				for i := 0; i < 20; i++ {
 
 					count := len(a)
 					_, exp, err := runtime.Evaluate(`window.scrollTo(0,document.body.scrollHeight);`).Do(c1)
@@ -210,7 +210,7 @@ func (t *Webs) UrlList() {
 								var v int
 								a := make(map[int]int)
 
-								for i := 0; i < 10; i++ {
+								for i := 0; i < 20; i++ {
 
 									count := len(a)
 									_, exp, err := runtime.Evaluate(`window.scrollTo(0,document.body.scrollHeight);`).Do(c3)
@@ -242,7 +242,7 @@ func (t *Webs) UrlList() {
 								for _, node := range t.headNodes {
 									u := node.AttributeValue("href")
 									appUrl := t.playstoreUrl + u
-									log.Println("[category]", appUrl)
+									//log.Println("[category]", appUrl)
 									t.appURLChan <- appUrl
 								}
 								return nil
@@ -288,7 +288,7 @@ func next(a string) string {
 func (t Webs) Searcher() {
 	first := "a"
 
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 10000000; i++ {
 		t.SearchKeyword(first)
 		val := next(first)
 		first = val
@@ -322,7 +322,7 @@ func (t *Webs) SearchKeyword(searchItem string) {
 			var v int
 			a := make(map[int]int)
 
-			for i := 0; i < 10; i++ {
+			for i := 0; i < 20; i++ {
 
 				count := len(a)
 				_, exp, err := runtime.Evaluate(`window.scrollTo(0,document.body.scrollHeight);`).Do(c1)
@@ -354,7 +354,7 @@ func (t *Webs) SearchKeyword(searchItem string) {
 			for _, node := range t.headNodes {
 				u := node.AttributeValue("href")
 				appUrl := t.playstoreUrl + u
-				log.Println("[search]", appUrl)
+				//log.Println("[search]", appUrl)
 				t.appURLChan <- appUrl
 			}
 

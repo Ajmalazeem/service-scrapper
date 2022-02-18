@@ -3,9 +3,9 @@ package store
 import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+
 	//"gorm.io/gorm/clause"
 	"bitbucket.org/ajmal_azm/scraperP/model"
-
 )
 
 type WebStore interface {
@@ -26,7 +26,8 @@ func (t *webStore) Create(response model.Model) error {
 	default:
 		var a []model.Model
 		unique := map[string]struct{}{}
-		for i := 0; i < 500; i++ {
+		limit := len(t.ch)
+		for i := 0; i < limit; i++ {
 			val := <-t.ch
 			if _, ok := unique[val.PackageName]; !ok {
 				a = append(a, val)
@@ -67,6 +68,5 @@ func NewWebStore(db *gorm.DB) WebStore {
 	return &webStore{
 		db: db,
 		ch: make(chan model.Model, 500),
-		
 	}
 }

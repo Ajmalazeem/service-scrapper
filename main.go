@@ -32,8 +32,9 @@ func main() {
 	api.NewScraperBg(webStore, web)
 	scrap := api.NewWebService(webStore)
 	log.Println("Listening on", "8080")
-	http.ListenAndServe(":8080", api.MakeHandler(scrap))
-	//<-time.NewTicker(time.Hour).C
-	//log.Println(time.Now())
+	http.ListenAndServe(":8000", api.MakeHandler(scrap))
+	//log.Println(http.ListenAndServe(":8000", api.MakeHandler(scrap)))
+	// <-time.NewTicker(48*time.Hour).C
+	// log.Println(time.Now())
 
 }

@@ -2,9 +2,9 @@ CREATE DATABASE scraper;
 
 CREATE TABLE scrap (
     package_name        TEXT            PRIMARY KEY,
-    app_name            TEXT            NOT NULL,
-    urlid               VARCHAR         NOT NULL,
-    company             VARCHAR         NOT NULL,
+    app_name            TEXT,
+    urlid               VARCHAR,
+    company             VARCHAR,
     contain_ads         BOOLEAN,
     purchase_ads        BOOLEAN,
     image_url           VARCHAR,
@@ -19,7 +19,7 @@ CREATE TABLE scrap (
     interactive_ele     VARCHAR,
     in_app_products     VARCHAR,
     offered_by          VARCHAR,
-    developer           VARCHAR,
+    developer           VARCHAR
     );
 
 
@@ -31,8 +31,8 @@ CREATE TABLE scrap_logs (
     field TEXT,
     old TEXT,
     new TEXT,
-    updated TIMESTAMP,
-    UNIQUE(package_name,field,updated),
+    updated DATE,
+    UNIQUE(package_name,field,updated)
     );
 
 create or replace function log_change()
