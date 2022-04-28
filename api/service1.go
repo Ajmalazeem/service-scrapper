@@ -9,7 +9,7 @@ import (
 )
 
 type ScraperBg interface {
-	GeneratePackage() error
+	GeneratePackage()
 	Scrap() error
 }
 
@@ -22,18 +22,16 @@ type Scraperbg struct {
 func NewScraperBg(webStore store.WebStore, web web.Web) ScraperBg {
 	a := Scraperbg{webStore: webStore, web: web, b: make(chan string)}
 	go a.GeneratePackage()
-	for i := 0; i < 30; i++ {
+	for i := 0; i < 24; i++ {
 		go a.Scrap()
 	}
 	return &a
 }
 
-func (t *Scraperbg) GeneratePackage() error {
+func (t *Scraperbg) GeneratePackage()  {
 	go t.web.CategoriesList()
 	go t.web.UrlList()
 	go t.web.Searcher()
-
-	return nil
 }
 
 func (t *Scraperbg) Scrap() (err error) {
@@ -42,7 +40,8 @@ func (t *Scraperbg) Scrap() (err error) {
 		response := scrap.Scraper(url)
 		if err := t.webStore.Create(response); err != nil {
 			log.Println(err)
+			return err
 		}
 	}
-	return err
+	return nil
 }

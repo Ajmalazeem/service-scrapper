@@ -39,9 +39,12 @@ func (t *webStore) Create(response model.Model) error {
 			Columns:   []clause.Column{{Name: "package_name"}},
 			UpdateAll: true,
 		}).Create(&a).Error
+		if err!= nil{
+			return err
+		}
 		t.ch <- response
 	}
-	return err
+	return nil
 }
 
 func (t *webStore) GetPackageNameDetails(req model.GetRequest) (*model.Model, error) {

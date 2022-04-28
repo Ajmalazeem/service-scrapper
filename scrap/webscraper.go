@@ -37,7 +37,7 @@ func Scraper(url string) model.Model {
 
 	doc.Find(".R8zArc").Each(func(i int, f *goquery.Selection) {
 
-		if i == 0 {
+		if i == 1 {
 			response.DeveloperName = f.Text()
 			return
 		}
@@ -48,7 +48,7 @@ func Scraper(url string) model.Model {
 		var ok bool
 		response.ImageUrl, ok = s.Attr("src")
 		if !ok {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	})
 
@@ -78,6 +78,7 @@ func Scraper(url string) model.Model {
 			}
 		}
 	})
+
 	//---------------------ratedpeoplecount------------------------
 	doc.Find("span.hzfjkd").Each(func(i int, s *goquery.Selection) {
 		response.RatedPeopleCount = s.Next().Text()
@@ -161,6 +162,7 @@ func Scraper(url string) model.Model {
 			return
 		}
 	})
+
 	// --------------------------------------------------------------------------------
 	//#1
 	doc.Find("div.W4P4ne > div.JHTxhe.IQ1z0d > div > div:nth-child(7) > div").Each(func(i int, s *goquery.Selection) {

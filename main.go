@@ -31,7 +31,7 @@ func main() {
 	webStore := store.NewWebStore(db)
 	api.NewScraperBg(webStore, web)
 	scrap := api.NewWebService(webStore)
-	log.Println("Listening on", "8080")
+	log.Println("Listening on", "8000")
 	http.ListenAndServe(":8000", api.MakeHandler(scrap))
 	//log.Println(http.ListenAndServe(":8000", api.MakeHandler(scrap)))
 	// <-time.NewTicker(48*time.Hour).C

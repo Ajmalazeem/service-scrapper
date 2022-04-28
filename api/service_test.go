@@ -94,7 +94,7 @@ func TestGetChangeLogDetails(t *testing.T) {
 			Old:         "4.4",
 			New:         "4.3",
 			Updated:     "2022-02-10T00:00:00Z",
-		},{
+		}, {
 			PackageName: "com.taxsee.taxsee",
 			Field:       "rated_people",
 			Old:         "1,751,471",
@@ -111,15 +111,15 @@ func TestGetChangeLogDetails(t *testing.T) {
 	if err != nil {
 		log.Println(err)
 	}
-	
+
 	mockrepo.AssertExpectations(t)
 	assert.Equal(t, "com.taxsee.taxsee", result[0].PackageName)
-	assert.Equal(t, "rating",result[0].Field )
+	assert.Equal(t, "rating", result[0].Field)
 	assert.Equal(t, "4.4", result[0].Old)
 	assert.Equal(t, "4.3", result[0].New)
 	assert.Equal(t, "2022-02-10T00:00:00Z", result[0].Updated)
 	assert.Equal(t, "com.taxsee.taxsee", result[1].PackageName)
-	assert.Equal(t, "rated_people",result[1].Field )
+	assert.Equal(t, "rated_people", result[1].Field)
 	assert.Equal(t, "1,751,471", result[1].Old)
 	assert.Equal(t, "1,751,909", result[1].New)
 	assert.Equal(t, "2022-02-10T00:00:00Z", result[1].Updated)

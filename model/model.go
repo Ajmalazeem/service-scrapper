@@ -22,7 +22,6 @@ type Model struct {
 	Developer           string `json:"developer" gorm:"column:developer"`
 }
 
-
 type GetRequest struct {
 	PackageName string
 }

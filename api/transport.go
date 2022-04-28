@@ -4,8 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	httptransport "github.com/go-kit/kit/transport/http"
+
 	"github.com/go-kit/kit/endpoint"
+	httptransport "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 
 	"bitbucket.org/ajmal_azm/scraperP/model"
@@ -19,10 +20,10 @@ func decodeGetRequest(_ context.Context, r *http.Request) (interface{}, error) {
 }
 
 func makeGetPackageNameDetailsEndpoint(svc WebService) endpoint.Endpoint {
-	return func(_ context.Context, request interface{}) (interface{},error) {
+	return func(_ context.Context, request interface{}) (interface{}, error) {
 		req := request.(model.GetRequest)
-		d, err:=svc.GetPackageNameDetails(req)
-		if err!= nil{
+		d, err := svc.GetPackageNameDetails(req)
+		if err != nil {
 			return nil, err
 		}
 		return d, nil
@@ -37,16 +38,15 @@ func decodeGetLogRequest(_ context.Context, r *http.Request) (interface{}, error
 }
 
 func makeGetLogEndpoint(svc WebService) endpoint.Endpoint {
-	return func(_ context.Context, request interface{}) (interface{},error) {
+	return func(_ context.Context, request interface{}) (interface{}, error) {
 		req := request.(model.GetRequest)
-		d, err:=svc.GetChangeLogDetails(req)
-		if err!= nil{
+		d, err := svc.GetChangeLogDetails(req)
+		if err != nil {
 			return nil, err
 		}
 		return d, nil
 	}
 }
-
 
 func MakeHandler(svc WebService) http.Handler {
 	r := mux.NewRouter()
@@ -62,22 +62,15 @@ func MakeHandler(svc WebService) http.Handler {
 		decodeGetLogRequest,
 		encodeResponse,
 	)
-	
+
 	r.Methods(http.MethodGet).Path("/scrap/{package_name}").Handler(GetDetailsHandler)
 	r.Methods(http.MethodGet).Path("/scrap/log/{package_name}").Handler(GetLogHandler)
 	return r
 }
 
 func encodeResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
-	if err:=json.NewEncoder(w).Encode(response); err != nil{
+	if err := json.NewEncoder(w).Encode(response); err != nil {
 		return err
 	}
 	return nil
 }
-
-
-
-
-
-
-

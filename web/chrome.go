@@ -59,6 +59,7 @@ func (t *Webs) CategoriesList() {
 					_, exp, err := runtime.Evaluate(`window.scrollTo(0,document.body.scrollHeight);`).Do(c2)
 					time.Sleep(2 * time.Second)
 					if err != nil {
+						log.Println(err)
 						return err
 					}
 					if exp != nil {
@@ -74,6 +75,7 @@ func (t *Webs) CategoriesList() {
 					}
 
 					if err != nil {
+						log.Println(err)
 						return err
 					}
 				}
@@ -191,7 +193,6 @@ func (t *Webs) UrlList() {
 					if err != nil {
 						return err
 					}
-
 				}
 				return nil
 			}),
@@ -216,6 +217,7 @@ func (t *Webs) UrlList() {
 									_, exp, err := runtime.Evaluate(`window.scrollTo(0,document.body.scrollHeight);`).Do(c3)
 									time.Sleep(2 * time.Second)
 									if err != nil {
+										log.Println(err)
 										return err
 									}
 									if exp != nil {
@@ -231,6 +233,7 @@ func (t *Webs) UrlList() {
 									}
 
 									if err != nil {
+										log.Println(err)
 										return err
 									}
 
